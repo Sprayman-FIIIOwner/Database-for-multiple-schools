@@ -35,8 +35,8 @@ function handleLogin() {
     console.log(school)
 
     // Logika Key
-    const isChatMode = keyInput.endsWith('/c');
-    const actualKey = isChatMode ? keyInput.replace('/c', '') : keyInput;
+    const isChatMode = keyInput.endsWith('/C');
+    const actualKey = isChatMode ? keyInput.replace('/C', '') : keyInput;
 
     const keyTonggalan = "TGL5-CEO-A3";
     const keyKlaten2 = "KLT2-SAM-AR";
