@@ -108,8 +108,8 @@ function handleLogin() {
 }
 
 // Fungsi executeEntry dan lainnya tetap sama seperti milikmu
-function executeEntry(userName, userSchool, isChatMode, userData) {
-    document.getElementById('login-page').style.display = 'none';
+function executdocumeneEntry(userName, userSchool, isChatMode, userData) {
+    t.getElementById('login-page').style.display = 'none';
     
     const isVerified = !userData.status;
 

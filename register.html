@@ -44,67 +44,74 @@
         const auth = firebase.auth();
 
         document.getElementById('register-btn').onclick = async () => {
+            
             if (typeof grecaptcha === "undefined") {
                 alert("CAPTCHA belum siap, tunggu sebentar!");
                 return;
             }
-
+        
             const captchaResponse = grecaptcha.getResponse();
             if (captchaResponse.length === 0) {
                 alert("Silakan centang CAPTCHA sebelum melanjutkan!");
-                location.reload();
                 return;
             }
-
-            const name = document.getElementById('reg-name').value.trim().toLowerCase();
-            const keyInput = document.getElementById('reg-key').value.trim().toUpperCase();
-
+        
+            let name = document.getElementById('reg-name')
+            .value.trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9 ]/g,"");
+        
+            const keyInput = document.getElementById('reg-key')
+            .value.trim()
+            .toUpperCase();
+        
             if (!name || !keyInput) {
                 alert("Nama dan Classroom Key wajib diisi!");
                 return;
             }
-
+        
             const keyTonggalan = "TGL5-CEO-A3";
             const keyKlaten2 = "KLT2-SAM-AR";
+        
             let school = "";
-
-            if (keyInput === keyTonggalan) school = "tonggalan";
-            else if (keyInput === keyKlaten2) school = "klaten2";
+        
+            if (keyInput === keyTonggalan) {
+                school = "tonggalan";
+            } 
+            else if (keyInput === keyKlaten2) {
+                school = "klaten2";
+            } 
             else {
                 alert("Classroom Key salah atau tidak sesuai sekolah!");
                 return;
             }
-
+        
             const confirmed = confirm(`Akun baru akan dibuat untuk '${name}' di ${school}. Lanjutkan?`);
             if (!confirmed) return;
-
-            const nameVerify = prompt("Masukkan nama panggilan lagi untuk verifikasi:").trim().toLowerCase();
-            const keyVerify = prompt("Masukkan Classroom Key lagi:").trim().toUpperCase();
-
-            if (nameVerify !== name) {
-                alert("Nama panggilan tidak sesuai. Registrasi dibatalkan.");
-                return;
-            }
-            if (keyVerify !== keyInput) {
-                alert("Classroom Key tidak sesuai. Registrasi dibatalkan.");
-                return;
-            }
-
-            const virtualEmail = name + "@sekolah.com";
-            const virtualPassword = name + "password1248bit";
-
+        
             try {
-                await auth.createUserWithEmailAndPassword(virtualEmail, virtualPassword);
+            
+                const snapshot = await db.ref(`Users/${school}/${name}`).once("value");
+            
+                if (snapshot.exists()) {
+                    alert("Kamu sudah pernah mengajukan akses. Mohon tunggu verifikasi.");
+                    return;
+                }
+            
                 await db.ref(`Users/${school}/${name}`).set({
                     status: "unverified",
-                    createdAt: new Date().toISOString()
+                    role: "student"
                 });
-                alert(`Akun berhasil dibuat!`);
+            
+                alert("Registrasi berhasil! Silakan tunggu verifikasi admin (maks 1x24 jam).");
+            
                 window.location.href = "index.html";
+            
             } catch (err) {
                 console.error(err);
-                alert("Gagal membuat akun: " + err.message);
+                alert("Terjadi kesalahan saat registrasi.");
             }
+        
         };
     </script>
 </body>
