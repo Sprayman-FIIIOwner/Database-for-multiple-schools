@@ -16,7 +16,7 @@
 <div class="container" id="login-page">
     <h3>Akses Database Terpadu</h3>
     <hr>
-
+    
     <label>Nama panggilan Siswa:</label>
     <input type="text" id="user-input" placeholder="Masukkan nama sesuai absen...">
 
@@ -25,13 +25,13 @@
 
     <label style="font-weight:bold;">Verifikasi CAPTCHA:</label>
     <div class="g-recaptcha" data-sitekey="6LfV4oksAAAAAP9wLUl3U5AEOgLGkpRfBMYmfXm5"></div>
-    
+
     <button id="login-btn">MASUK SISTEM</button>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </div>
 
 <div class="container" id="public-homework">
-    <h3 id="school-view-title">Log Tugas</h3>
+    <h3 id="school-view-title">Daftar tugas</h3>
     <p id="date-info" style="font-size: 11px; color: #1a4a7a; font-weight: bold;"></p>
     <table class="homework-table">
         <thead>
@@ -41,18 +41,29 @@
     </tbody>
     </table>
     <button onclick="location.reload()" style="margin-top:20px; background-color: #6c757d;">LOGOUT SISTEM</button>
-
 </div>
 
-<div class="container" id="secret-chat">
-    <h3>FIII | Secure Connection</h3>
-    <div class="message-box" id="chat-content">
-        <p style="color: #adb5bd; font-size: 11px; text-align: center;">-- Sistem Komunikasi Rahasia Aktif --</p>
+<div class="container" id="homework-reply">
+    <h3>Apa yang orang katakan tentang tugas ini</h3>
+    
+    <div id="comments-list">
+        <div class="container comment" id="Comment1" data-pin="true">
+            <label>Azfar:</label>
+            <p>
+                Aturan komen PR: <br>
+                1. Jangan komen dengan kata-kata yang tidak jelas <br>
+                2. Jangan gunakan bahasa kasar <br>
+                3. Jangan membahas hal yang tidak relevan dengan tugas <br>
+                4. Jangan membahas hal yang bersifat pribadi <br>
+            </p>
+        </div>
     </div>
-    <input type="text" id="msg-input" placeholder="Kirim pesan...">
-    <button onclick="sendMsg()">KIRIM</button>
-    <button onclick="location.reload()" style="margin-top:10px; background-color: #dc3545;">PANIC SHUTDOWN</button>
+
+    <div id="comment-form">
+       <input type="text" id="user-input" placeholder="Masukkan balasan tugas..." />
+    </div>
 </div>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
