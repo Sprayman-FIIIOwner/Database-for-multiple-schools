@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0f2f5;
@@ -7,19 +13,22 @@ body {
 }
 
 .header {
-    background-color: #1a4a7a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px; 
+    padding: 0 20px; 
+    background: #005596;
     color: white;
-    padding: 15px 0;
-    text-align: center;
-    border-bottom: 4px solid #d4af37;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-bottom: 4px solid #ffa500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.507);
 }
 
 .header h2 {
-    margin: 0;
-    font-size: 1.2rem;
-    letter-spacing: 1.5px;
-    font-weight: 600;
+    margin:0;
+    font-size: 18px;
+    letter-spacing: 0px;
+    text-shadow: 0 1px 3px rgb(0, 0, 0);
 }
 
 .container {
@@ -148,22 +157,20 @@ a:hover {
     font-size: 14px;
 }
 
-#send-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    width: auto;
-    background: initial;
-    border: initial;
-    cursor: pointer;
+#profile-editor {
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 55px;
+    right: 20px;
+    z-index: 1001;
+    outline: 5000px solid rgba(0, 0, 0, 0.5);
     margin: 0;
-}
-
-#send-button img {
-    width: 20px;
-    height: 20px;
-    display: block;
+    display: none; 
 }
 
 .pin-label {
@@ -176,12 +183,34 @@ a:hover {
     margin-left: 6px;
 }
 
+#header-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #fff;
+    color: #005596;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.5);
+}
+
+#header-profile-trigger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
 .comment[data-pin="true"] {
     border-left: 4px solid gold;
     background-color: #fff9e6;
 }
 
 #public-homework,
-#homework-reply {
+#homework-reply,
+#header-profile-trigger {
     display: none;
 }

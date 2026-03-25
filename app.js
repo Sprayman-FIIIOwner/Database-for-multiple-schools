@@ -1,10 +1,75 @@
+
+const firebaseConfig = { // Please collapse this section for less scrolling
+      apiKey: "AIzaSyDE1tJF3p4t-wOFQWLJlQr2eU12KG5_NAc",
+      authDomain: "database-pr-sekolah.firebaseapp.com",
+      databaseURL: "https://database-pr-sekolah-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "database-pr-sekolah",
+      storageBucket: "database-pr-sekolah.firebasestorage.app",
+      messagingSenderId: "699468097429",
+      appId: "1:699468097429:web:197f697f86e6176e49b89c"
+    };
+if (!firebase.apps.length) { 
+    firebase.initializeApp(firebaseConfig);
+}
+
+const profileEditor = document.getElementById("profile-editor");
+const input = document.getElementById("comment-input");
+const commentsList = document.getElementById("comments-list");
+const tableBody = document.getElementById("homework-list");
+const db = firebase.database();
+const auth = firebase.auth();
+
+let headerProfileTrigger = document.getElementById("header-profile-trigger");
+let headerProfileAvatar = document.getElementById("header-avatar");
+let HPTVis = false;
+let cleanedUsername = "";
+let username = "";
+let profileName = document.getElementById("profile-name");
+
+auth.signOut();
+
+headerProfileAvatar.onclick = () => {
+    event.stopPropagation();
+    print("Toggling Profile Editor");
+    HPTVis = !HPTVis;
+    if (HPTVis) {
+        profileEditor.style.display = "block";
+    } else {
+        profileEditor.style.display = "none";
+    }
+};
+
+window.onclick = (event) => {
+    if (HPTVis) {
+        if (!profileEditor.contains(event.target)) {
+            print("Closing Profile Editor (Clicked Outside)");
+            profileEditor.style.display = "none";
+            HPTVis = false;
+        }
+    }
+};
+
 document.getElementById('date-info').innerText = "DATA TERKINI: " + new Date().toLocaleDateString('id-ID');
+
 window.onload = () => {
     document.getElementById('login-btn').onclick = handleLogin;
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            headerProfileTrigger.style.display = "flex";
+            username = user.displayName || user.email.split("@")[0];
+            cleanedUsername = username.charAt(0).toUpperCase() + username.slice(1)
+            profileName.textContent = cleanedUsername;
+        } else {
+            headerProfileTrigger.style.display = "none";
+            username = "";
+            cleanedUsername = "";
+        }
+    });
+    headerProfileTrigger = document.getElementById("header-profile-trigger");
+    headerProfileAvatar = document.getElementById("header-avatar");
+    profileName = document.getElementById("profile-name");
 };
-const input = document.getElementById("comment-input");
-commentsList = document.getElementById("comments-list");
-const tableBody = document.getElementById("homework-list");
+
 tableBody.addEventListener("click", function(event) {
     let tr = event.target.closest("tr");
     if (!tr) return;
@@ -12,6 +77,7 @@ tableBody.addEventListener("click", function(event) {
     document.getElementById("homework-reply").style.display = "block";
     loadComments(currentHomeworkKey);
 });
+
 input.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -23,8 +89,9 @@ input.addEventListener("keydown", function(event) {
             return;
         }
         const username = user.displayName || user.email.split("@")[0];
-        addCommentToDOM(username, text, false);
-        db.ref(`HomeworkReplies/${school}/${currentHomeworkKey}/chat/${username}`).set({
+        cleanedUsername = username.charAt(0).toUpperCase() + username.slice(1)
+        addCommentToDOM(cleanedUsername, text, false);
+        db.ref(`HomeworkReplies/${school}/${currentHomeworkKey}/chat/${cleanedUsername}`).set({
             comment: text,
             pin: false
         });
@@ -33,39 +100,33 @@ input.addEventListener("keydown", function(event) {
 });
 
 function addCommentToDOM(username, commentText, pin = false) {
-        const div = document.createElement("div");
-        div.className = "container comment";
-        if (pin) div.dataset.pin = "true";
+    const commentsList = document.getElementById("comments-list");
 
-        const pinLabel = pin ? '<span class="pin-label">📌 Pinned</span>' : '';
-        div.innerHTML = `
-            <label>${username}:</label> ${pinLabel}
-            <p>${commentText.replace(/\n/g, "<br>")}</p>
-        `;
-
-        if (pin) {
-            commentsList.prepend(div); // pinned: top
-        } else {
-            commentsList.appendChild(div); // normal: bottom
+    const existingComments = commentsList.querySelectorAll(".container.comment");
+    existingComments.forEach(commentDiv => {
+        const label = commentDiv.querySelector("label");
+        if (label && label.innerText.startsWith(username)) {
+            commentDiv.remove(); 
         }
+    });
+
+    const div = document.createElement("div");
+    div.className = "container comment";
+    if (pin) div.dataset.pin = "true";
+
+    const pinLabel = pin ? '<span class="pin-label">📌 Pinned</span>' : '';
+    div.innerHTML = `
+        <label>${username}:</label> ${pinLabel}
+        <p>${commentText.replace(/\n/g, "<br>")}</p>
+    `;
+
+    // 3. Add to DOM
+    if (pin) {
+        commentsList.prepend(div);
+    } else {
+        commentsList.appendChild(div);
     }
-
-const firebaseConfig = {
-      apiKey: "AIzaSyDE1tJF3p4t-wOFQWLJlQr2eU12KG5_NAc",
-      authDomain: "database-pr-sekolah.firebaseapp.com",
-      databaseURL: "https://database-pr-sekolah-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "database-pr-sekolah",
-      storageBucket: "database-pr-sekolah.firebasestorage.app",
-      messagingSenderId: "699468097429",
-      appId: "1:699468097429:web:197f697f86e6176e49b89c"
-    };
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
 }
-
-const db = firebase.database();
-const auth = firebase.auth();
-
 
 function handleLogin() {
     if (typeof grecaptcha === "undefined") {
@@ -192,7 +253,7 @@ function loadComments(homeworkKey) {
     commentsList.innerHTML = "";
 
     db.ref(`HomeworkReplies/${school}/${homeworkKey}/chat`)
-    .on("value", snapshot => {
+    .once("value", snapshot => {
         snapshot.forEach(child => {
             const data = child.val();
             const username = child.key;
@@ -200,3 +261,13 @@ function loadComments(homeworkKey) {
         });
     });
 }
+
+// Below this is a function to normalize lua syntax usage
+
+function print(text) {
+    console.log(text);
+}
+
+const task = {
+  wait: (seconds) => new Promise(resolve => setTimeout(resolve, seconds * 1000))
+};

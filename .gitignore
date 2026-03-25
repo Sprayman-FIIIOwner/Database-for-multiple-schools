@@ -2,3 +2,11 @@
 node_modules/
 .env
 firebase.js
+package-lock.json
+package.json
+.firebaserc
+.github/
+database.rules.json
+firebase.json
+.firebase/
+*.log
