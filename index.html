@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="1BfnQwDtKHTHXmcIDoh-Cz4c2UldhWrq4QXNCqaD7qw" />
     <title>FIII-DB | Database Tugas Sekolah</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="https://i.imgur.com/P2ySQX2.png" type="image/png">
@@ -19,7 +20,7 @@
 <body>
 
 <div class="header">
-    <h2>Database Pendidikan</h2>
+    <h2>Portal Tugas Mandiri</h2>
     
     <div id="header-profile-trigger">
         <div id="header-avatar">
@@ -28,6 +29,9 @@
 </div>
 
 <div class="container" id="login-page">
+    <div style="background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.8rem; border: 1px solid #ffeeba;">
+        <strong>Sistem Pembelajaran Mandiri:</strong> Situs ini digunakan khusus untuk tugas siswa. Ini bukan situs resmi pemerintah atau bank.
+    </div>
     <h3>Akses Database Terpadu</h3>
     
     <label>Nama panggilan Siswa:</label>
@@ -39,8 +43,9 @@
     <label style="font-weight:bold;">Verifikasi CAPTCHA:</label>
     <div class="g-recaptcha" data-sitekey="6LfV4oksAAAAAP9wLUl3U5AEOgLGkpRfBMYmfXm5"></div>
 
-    <button id="login-btn">Masuk Sistem</button>
+    <button id="login-btn">🎓Masuk Sistem</button>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <label class="Disclaimer">Disclaimer: Website ini bukan website resmi</label>
 </div>
 
 <div class="container" id="public-homework">
@@ -92,6 +97,11 @@
 
     <a onclick="location.reload()" style="color: #c0392b; font-weight: bold;" cursor="pointer">Sign Out</a>
 </div>
+
+<footer style="text-align: center; margin-top: 20px; font-size: 0.75rem; color: #666;">
+  Halaman ini dikelola oleh Azfar Reynard Wanadi untuk keperluan pendidikan.<br>
+  Pertanyaan? Hubungi melalui Portfolio di GitHub Pages.
+</footer>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
