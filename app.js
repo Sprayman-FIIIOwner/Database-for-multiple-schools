@@ -295,5 +295,9 @@ input.addEventListener("keydown", (event) => {
     }
 });
 
+console.log("%c⚠️ PENYUSUP TERDETEKSI! ⚠️", "color: red; font-size: 20px; font-weight: bold;");
+console.log("%cKamu sedang melihat kode buatan Wakil Ketua Kelas.", "color: orange; font-size: 14px;");
+console.log("%cDon't even try to hack this. Everything is encrypted via Firebase. 😉", "color: cyan; font-style: italic;");
+
 // Helper for debugging
 function print(text) { console.log(text); }
