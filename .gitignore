@@ -1,7 +1,6 @@
 .DS_Store
 node_modules/
 .env
-firebase.js
 package-lock.json
 package.json
 .firebaserc
