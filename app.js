@@ -1,6 +1,6 @@
 // --- 1. CONFIGURATION ---
 const firebaseConfig = { 
-    apiKey: "AIzaSyDE1tJF3p4t-wOFQWLJlQr2eU12KG5_NAc",
+    apiKey: "AIzaSyDirN1tq0stXrHSLCx7Xzom0azDW9R0yog",
     authDomain: "database-pr-sekolah.firebaseapp.com",
     databaseURL: "https://database-pr-sekolah-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "database-pr-sekolah",
